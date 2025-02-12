@@ -1,23 +1,25 @@
 import 'package:e_mart/models/product_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-List<ProductModel> allProducts = [
+part 'products_provider.g.dart';
+
+List<ProductModel> allProducts = const[
   ProductModel(
     id: '1',
     title: 'Groovy Shorts',
-    price: 100,
+    price: 35,
     image: 'assets/products/shorts.png',
   ),
   ProductModel(
     id: '2',
     title: 'Karati kit',
-    price: 100,
+    price: 25,
     image: 'assets/products/karati.png',
   ),
   ProductModel(
     id: '3',
     title: 'Denim Jeans',
-    price: 100,
+    price: 60,
     image: 'assets/products/jeans.png',
   ),
   ProductModel(
@@ -29,31 +31,43 @@ List<ProductModel> allProducts = [
   ProductModel(
     id: '5',
     title: 'Drum & Sticks',
-    price: 100,
+    price: 120,
     image: 'assets/products/drum.png',
   ),
   ProductModel(
     id: '6',
     title: 'Blue Suitcase',
-    price: 100,
+    price: 200,
     image: 'assets/products/suitcase.png',
   ),
   ProductModel(
     id: '7',
     title: 'Roller Skates',
-    price: 100,
+    price: 150,
     image: 'assets/products/skates.png',
   ),
   ProductModel(
     id: '8',
     title: 'Eletric Guitar',
-    price: 100,
+    price: 600,
     image: 'assets/products/guitar.png',
   ),
 ];
 
-final productsProvider = Provider((ref) => allProducts);
+// final productsProvider = Provider((ref) => allProducts);
 
-final reducedProductProvider = Provider((ref) {
-  return allProducts.where((product) => product.price < 50).toList();
-});
+// final reducedProductProvider = Provider((ref) {
+//   return allProducts.where((p) => p.price < 50).toList();
+// });
+
+//generated provider
+@riverpod
+List<ProductModel> products(ref){
+  return allProducts;
+
+}
+
+@riverpod
+List<ProductModel> reducedProduct(ref){
+  return allProducts.where((p) => p.price < 50).toList();
+}

@@ -1,5 +1,6 @@
 
-import 'package:e_mart/providers/card_provider.dart';
+import 'package:e_mart/models/product_model.dart';
+import 'package:e_mart/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CartScreen extends ConsumerStatefulWidget {
@@ -15,7 +16,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
     final cartProducts = ref.watch(cartNotifierProvider);
-
+    final total = ref.watch(cartTotalProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart items'),
@@ -40,10 +41,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     ]
                   )
                 );
-              }).toList(), // output cart products here
+              }).toList(), 
+            // output cart products
             ),
-
-            // output totals here
+            Text("Total price: $total")
+            // output totals
           ],
         ),
       ),

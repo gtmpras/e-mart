@@ -33,44 +33,67 @@ class HomeScreen extends ConsumerWidget {
               childAspectRatio: 0.9,
             ),
             itemBuilder: (context, index) {
-              return Container(
-                color: Colors.blueGrey.withOpacity(0.05),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      allProducts[index].image,
-                      width: 90,
-                      height: 80,
+              final product = allProducts[index];
+              final isInCart = cartProducts.contains(product);
+
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
+                  child: Container(
+                    color: Colors.blueGrey.withOpacity(0.05),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            allProducts[index].image,
+                            width: 90,
+                            height: 80,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(product.title,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                        Text('\$${product.price}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.grey)),
+                  
+                        if (isInCart)
+                          TextButton(
+                              onPressed: () {
+                                ref
+                                    .read(cartNotifierProvider.notifier)
+                                    .removeProduct(product);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                     SnackBar(
+                                        content: Text('${product.title} removed from cart')));
+                              },
+                              child: const Text(
+                                "Remove",
+                                style: TextStyle(
+                                    color: Colors.red, fontWeight: FontWeight.bold),
+                              )),
+                        if (!isInCart)
+                          TextButton(
+                              onPressed: () {
+                                ref
+                                    .read(cartNotifierProvider.notifier)
+                                    .addProduct(product);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                     SnackBar(
+                                        content: Text('${product.title} added to cart')));
+                              },
+                              child: const Text(
+                                "Add to cart",
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold),
+                              ))
+                      ],
                     ),
-                    Text(allProducts[index].title),
-                    Text('\$${allProducts[index].price}'),
-                    if (cartProducts.contains(allProducts[index]))
-                      TextButton(
-                          onPressed: () {
-                            ref
-                                .read(cartNotifierProvider.notifier)
-                                .removeProduct(allProducts[index]);
-                          },
-                          child:const Text(
-                            "Remove",
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
-                          )),
-                    if (!cartProducts.contains(allProducts[index]))
-                      TextButton(
-                          onPressed: () {
-                            ref
-                                .read(cartNotifierProvider.notifier)
-                                .addProduct(allProducts[index]);
-                          },
-                          child: Text(
-                            "Add to cart",
-                            style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
-                          ))
-                  ],
+                  ),
                 ),
               );
             }));

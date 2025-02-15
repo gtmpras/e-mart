@@ -1,5 +1,4 @@
 
-import 'package:e_mart/models/product_model.dart';
 import 'package:e_mart/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +10,7 @@ class CartScreen extends ConsumerStatefulWidget {
 }
 
 class _CartScreenState extends ConsumerState<CartScreen> {
-  bool showCoupon = true;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +34,17 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     children: [
                       Image.asset(product.image, width: 60, height: 60),
                       const SizedBox(width: 10),
-                      Text('${product.title}...'),
+                      Text('${product.title}...',style: TextStyle(fontWeight: FontWeight.bold),),
                       const Expanded(child: SizedBox()),
-                      Text('£${product.price}'),
+                      Text('£${product.price}',style: TextStyle(fontWeight: FontWeight.bold),),
                     ]
                   )
                 );
               }).toList(), 
             // output cart products
             ),
-            Text("Total price: $total")
-            // output totals
+            Text("Total price: $total",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)
+            // output totals,
           ],
         ),
       ),
